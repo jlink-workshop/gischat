@@ -1,0 +1,57 @@
+body {
+    background-color: black;
+    font-family: sans-serif;
+    color: azure;
+    margin: 10px;
+}
+
+.messages {
+    background-color: darkgrey;
+    padding: 1em;
+    width: 300px;
+    height: 200px;
+    overflow-y:scroll;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.message {
+    padding-bottom: 0.5em;
+}
+
+.messageTime {
+    color: bisque;
+    margin-right: 0.5em;
+}
+
+.user {
+    color: aqua;
+    font-weight: bold;
+}
+
+.user::after {
+    content: ":";
+}
+
+div#error {
+    background-color: beige;
+    margin-top: 2em;
+    color: red;
+    font-weight: bold;
+}
+
+input#userName {
+    width: 100px;
+}
+
+input#messageText {
+    width: 200px;
+}
+
+.feature {
+    background-color: darkseagreen;
+    width: 300px;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
