@@ -1,0 +1,66 @@
+name: Build and Test
+
+on: workflow_dispatch
+
+#on:
+#    push:
+#        branches: [ main ]
+#    pull_request:
+#        branches: [ main ]
+
+jobs:
+
+    build-and-test-app:
+        runs-on: ubuntu-latest
+
+        name: Build and Test App
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Set up JDK 17
+                uses: actions/setup-java@v2
+                with:
+                    distribution: 'temurin'
+                    java-version: '17'
+                    cache: 'gradle'
+
+            -   name: Build and test with Gradle
+                run: ./gradlew check --no-daemon
+
+# Disabled, since the report task is not visible after publishing for some unknown reason
+#            -   name: Publish Test Report
+#                uses: scacap/action-surefire-report@v1
+#                if: ${{ always() }}
+#                with:
+#                    check_name: Test Report
+#                    github_token: ${{ secrets.GITHUB_TOKEN }}
+#                    report_paths: '**/build/test-results/test/TEST*.xml'
+
+    build-and-test-pychatter:
+        runs-on: ubuntu-latest
+
+        name: Build and Test Pychatter
+
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: Set up Python 3.10
+                uses: actions/setup-python@v4
+                with:
+                    python-version: '3.10'
+            -   name: Install dependencies
+                run: |
+                    cd pychatter
+                    python -m pip install --upgrade pip
+                    pip install --upgrade setuptools
+                    pip install --upgrade build
+                    pip install --editable .
+            -   name: Test with pytest
+                env:
+                    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+                run: |
+                    cd pychatter
+                    pytest
+
+

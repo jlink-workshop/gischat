@@ -1,0 +1,6 @@
+rootProject.name = 'gischat'
+
+include('domain')
+include('web')
+include('frontend')
+//include('pychatter')

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="gischat.css">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <title>GisChat</title>
+</head>
+<body id="body" onload="onLoad()">
+
+<script type="module">
+    import {onLoad, onSendMessage, onUserNameChange, onChangeChatbotEnabled} from "./js/gischat.js";
+    document.getElementById("body").onload = onLoad;
+    document.getElementById("userName").oninput = onUserNameChange;
+    document.getElementById("sendMessageButton").onclick = onSendMessage;
+    document.getElementById("chatbotEnabled").onchange = onChangeChatbotEnabled;
+</script>
+
+<h1>GisChat: <span id="chatTitle">Unknown</span></h1>
+
+<form>
+    <label for="userName">User Name:</label>
+    <input id="userName" type="text" maxlength="12" />
+    <div id="messages" class="messages"></div>
+    <label for="messageText">Message:</label>
+    <input id="messageText" type="text" maxlength="60"/>
+    <button id="sendMessageButton" type="button">Send</button>
+</form>
+
+<form class="feature" id="feature-pychatter" style="visibility: hidden">
+    <input id="chatbotEnabled" type="checkbox"/>
+    <label for="chatbotEnabled">
+        Select to enable intelligent chatbot who listens to the name `Py`.
+    </label>
+</form>
+
+<div id="error"></div>
+
+</body>
+</html>
