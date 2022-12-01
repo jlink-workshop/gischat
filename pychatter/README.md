@@ -59,7 +59,7 @@ To start the API:
 ./scripts/start_api.sh
 ```
 
-Now the API is available on `http://localhosts:8081`.
+Now the API is available on `http://localhost:8081`.
 Try out the Open API doc on `http://localhost:8081/docs`.
 
 ## Resources
