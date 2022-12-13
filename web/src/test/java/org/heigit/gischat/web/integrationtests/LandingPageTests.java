@@ -16,7 +16,7 @@ class LandingPageTests extends IntegrationTests {
 		waitAndAssert(
 			driver -> {
 				WebElement chatTitle = driver.findElement(By.id("chatTitle"));
-				assertThat(chatTitle.getText()).isEqualTo("About Everything");
+				assertThat(chatTitle.getText()).isEqualTo("Mapathon 1");
 			}
 		);
 	}

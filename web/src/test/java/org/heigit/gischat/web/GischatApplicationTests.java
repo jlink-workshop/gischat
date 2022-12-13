@@ -14,6 +14,6 @@ class GischatApplicationTests {
 
 	@Test
 	void initializeContext() {
-		assertThat(gischatConfiguration.getChatTitle()).isEqualTo("About Everything");
+		assertThat(gischatConfiguration.getChatTitle()).isEqualTo("Mapathon 1");
 	}
 }
