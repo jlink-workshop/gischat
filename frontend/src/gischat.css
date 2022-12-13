@@ -25,6 +25,11 @@ body {
     margin-right: 0.5em;
 }
 
+.messageText {
+    display: inline-block;
+    vertical-align: top;
+}
+
 .user {
     color: aqua;
     font-weight: bold;
