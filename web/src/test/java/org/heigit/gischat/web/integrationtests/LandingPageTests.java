@@ -11,7 +11,7 @@ class LandingPageTests extends IntegrationTests {
 	void correctTitleAndChatTitle() {
 		driver.get(indexUrl());
 
-		assertThat(driver.getTitle()).contains("GisChat");
+		assertThat(driver.getTitle()).contains("MapChat");
 
 		waitAndAssert(
 			driver -> {
