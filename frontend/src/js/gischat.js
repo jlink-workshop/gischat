@@ -130,14 +130,24 @@ function createUserElement(user) {
   return userElement;
 }
 
-function createTextElement(time, text) {
+export function createTextElement(time, text) {
   let textElement = document.createElement("div");
   textElement.classList.add("message");
   let timeElement = document.createElement("span");
   timeElement.classList.add("messageTime");
   timeElement.append(document.createTextNode(time));
   textElement.append(timeElement);
-  textElement.append(document.createTextNode(text));
+  const messageElement = document.createElement("span");
+  messageElement.classList.add("messageText");
+  const lines = text.split('\n');
+  lines.forEach((line, index) => {
+    if (index > 0) {
+      messageElement.append(document.createElement("br"));
+    }
+    const lineElement = document.createTextNode(line);
+    messageElement.append(lineElement);
+  });
+  textElement.append(messageElement);
   return textElement;
 }
 
