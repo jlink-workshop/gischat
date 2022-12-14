@@ -3,7 +3,7 @@
 import {getChat, getChatbotStatus, postChatMessage, subscribeChatbot, unsubscribeChatbot} from "./gischat-api.js";
 import {config} from "./gischat-config.js";
 import {getUsername, setUsername} from "./gischat-username.js";
-import {clearAllFeatures, isFeatureActive, setFeature} from "./gischat-features.js";
+import {clearAllFeatures, setFeature} from "./gischat-features.js";
 
 export function onLoad() {
   evalFeatureToggles(location);
