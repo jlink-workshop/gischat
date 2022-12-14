@@ -3,6 +3,7 @@ from unittest.mock import patch
 import httpx
 
 from pychatter import main
+from pychatter.main import should_answer, build_chat_prompt, get_stop, make_completion
 
 
 def test_fetch_messages():
@@ -122,3 +123,7 @@ def test_should_not_answer_if_user_is_py():
 
 
 # TODO: Add tests run()
+def test_run():
+    # TODO: Mock messages & completion; assert new message (messages + completion)
+
+    pass
