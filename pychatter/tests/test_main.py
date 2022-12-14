@@ -105,19 +105,19 @@ def test_dont_make_completion_without_prior_messages():
 
 def test_should_answer_if_message_contains_py():
     message = {"user": "Alfred", "text": "Py, how are you?"}
-    should_answer = main.should_answer(message)
+    should_answer = main.should_answer(message, True)
     assert should_answer
 
 
 def test_should_not_answer_if_message_doesnt_contains_py():
     message = {"user": "Alfred", "text": "How are you?"}
-    should_answer = main.should_answer(message)
+    should_answer = main.should_answer(message, True)
     assert not should_answer
 
 
 def test_should_not_answer_if_user_is_py():
     message = {"user": "Py", "text": "Py, how are you?"}
-    should_answer = main.should_answer(message)
+    should_answer = main.should_answer(message, True)
     assert not should_answer
 
 
