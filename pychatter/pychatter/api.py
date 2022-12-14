@@ -20,7 +20,7 @@ app.add_middleware(
 class BotRequestModel(BaseModel):
     url: str = Field(
         title="URL",
-        description="GisChat API URL of a chat room",
+        description="MapChat API URL of a chat room",
         example="https://gischat.herokuapp.com/api/chats/1",
     )
 

@@ -11,7 +11,7 @@ def test_fetch_messages():
             status_code=200,
             content="""
                 {
-                  "title": "About Everything",
+                  "title": "Mapathon 1",
                   "messages": [
                     {
                       "user": "Greg",

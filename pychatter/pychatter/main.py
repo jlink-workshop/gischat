@@ -13,7 +13,7 @@ def run(url, on_mention=False):
     """Fetch messages, make completion and send a message to given chat room.
 
     Args:
-        url: GisChat API URL of a chat room (E.g. https://gischat.herokuapp.com/chat/1).
+        url: MapChat API URL of a chat room (E.g. https://gischat.herokuapp.com/chat/1).
         on_mention: Only send message to the chat room if bot name got mentioned.
     """
     messages = fetch_messages(url)
