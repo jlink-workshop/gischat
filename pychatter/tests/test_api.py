@@ -93,8 +93,8 @@ def test_send_request(mock_request, mock_completion, mock_response):
 @patch("httpx.get")
 def test_subscribe_request(mock_request, mock_completion, mock_response):
     mock_request.return_value = mock_request_fixture()
-    mock_completion.return_value = mock_completion_fixture()
-    mock_response.return_value = mock_response_fixture()
+ #   mock_completion.return_value = mock_completion_fixture()
+ #   mock_response.return_value = mock_response_fixture()
     with TestClient(app) as client:
         response: Response = client.post(
             "/bots/subscribe", json={"url": "https://gischat.herokuapp.com/api/chats/1"}
@@ -110,6 +110,22 @@ def test_subscribe_request(mock_request, mock_completion, mock_response):
 
 
 # TODO: Add tests for unsubscribe request
+@patch("httpx.post")
+@patch("openai.Completion.create")
+@patch("httpx.get")
+def test_unsubscribe_request(mock_request, mock_completion, mock_response):
+    mock_request.return_value = mock_request_fixture()
+    mock_completion.return_value = mock_completion_fixture()
+    mock_response.return_value = mock_response_fixture()
+    with TestClient(app) as client:
+        response: Response = client.post(
+            "/bots/unsubscribe", json={"url": "https://gischat.herokuapp.com/api/chats/1"}
+        )
+        assert response.status_code == 200
+        assert response.headers["content-type"] == "application/json"
+        json = response.json()
+        assert (json["count"] == 0)
+
 
 @pytest.mark.asyncio
 @patch("apscheduler.schedulers.background.BackgroundScheduler.add_job")
