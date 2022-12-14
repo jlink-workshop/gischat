@@ -5,6 +5,11 @@ on:
         branches: [ main ]
     workflow_dispatch:
 
+concurrency:
+    group: ${{ github.head_ref || github.ref_name }}
+    cancel-in-progress: true
+
+
 jobs:
 
     build-and-test-app:
@@ -55,7 +60,7 @@ jobs:
         needs:
             - build-and-test-app
             - build-and-test-pychatter
-        name: Deploy to Heroku
+        name: Deploy pychatter to Heroku
 
         steps:
             -   name: Checkout
@@ -85,7 +90,7 @@ jobs:
             - build-and-test-app
             - build-and-test-pychatter
             - deploy_pychatter_to_heroku
-        name: Build and Deploy to Heroku
+        name: Build and Deploy app to Heroku
 
         steps:
             -   name: Checkout
