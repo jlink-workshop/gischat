@@ -44,7 +44,7 @@ To create a new configuration file simply copy the sample configuration file and
 cp pychatter/config/sample.config.toml pychatter/config/config.toml
 ```
 
-Then add a valid value for `OPEN_AI_KEY` in `pychatter/config/config.toml`.
+Then add a valid value for `open-ai-key` in `pychatter/config/config.toml`.
 
 ## Run Tests
 
