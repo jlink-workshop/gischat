@@ -17,7 +17,7 @@ def run(url, on_mention=False):
         on_mention: Only send message to the chat room if bot name got mentioned.
     """
     messages = fetch_messages(url)
-    if on_mention and messages[-1]["text"].find("Py") == -1:
+    if not should_answer(messages[-1], on_mention):
         return
     prompt = build_chat_prompt(messages)
     stop = get_stop(messages)
@@ -82,6 +82,10 @@ def make_completion(prompt: str, stop: list) -> str | None:
         stop=stop,
     )
     return response["choices"][0]["text"].strip()
+
+
+def should_answer(message, on_mention):
+    return (not on_mention or message["text"].find("Py") != -1) and message["user"] != "Py"
 
 
 if __name__ == "__main__":
