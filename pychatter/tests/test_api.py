@@ -106,6 +106,9 @@ def test_subscribe_request(mock_request, mock_completion, mock_response):
         assert isinstance(json["id"], str)
 
 
+# TODO: Add test for status request
+
+
 # TODO: Add tests for unsubscribe request
 
 @pytest.mark.asyncio

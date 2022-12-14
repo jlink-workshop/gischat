@@ -70,6 +70,15 @@ async def subscribe(bot: BotRequestModel):
     return BotResponseModel(url=bot.url, id=job.id)
 
 
+@app.get("/bots/status")
+async def status():
+    """Verify if the chat bot is listening to any channels.
+    """
+    if len(scheduler.get_jobs()) > 0:
+        return {"status": "active"}
+    return {"status": "sleeping"}
+
+
 @app.post("/bots/unsubscribe")
 async def unsubscribe():
     """Unsubscribe a chatbot. It will currently unsubscribe all bots."""
