@@ -1,0 +1,120 @@
+name: Build, Test and Deploy
+
+on:
+    push:
+        branches: [ main ]
+    workflow_dispatch:
+
+jobs:
+
+    build-and-test-app:
+        runs-on: ubuntu-latest
+
+        name: Build and Test App
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Set up JDK 17
+                uses: actions/setup-java@v2
+                with:
+                    distribution: 'temurin'
+                    java-version: '17'
+                    cache: 'gradle'
+
+            -   name: Build and test with Gradle
+                run: ./gradlew check --no-daemon
+
+    build-and-test-pychatter:
+        runs-on: ubuntu-latest
+
+        name: Build and Test Pychatter
+
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: Set up Python 3.10
+                uses: actions/setup-python@v4
+                with:
+                    python-version: '3.10'
+            -   name: Install dependencies
+                run: |
+                    cd pychatter
+                    python -m pip install --upgrade pip
+                    pip install --upgrade setuptools
+                    pip install --upgrade build
+                    pip install --editable .
+            -   name: Test with pytest
+                env:
+                    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+                run: |
+                    cd pychatter
+                    pytest
+    deploy_pychatter_to_heroku:
+        runs-on: ubuntu-latest
+        needs:
+            - build-and-test-app
+            - build-and-test-pychatter
+        name: Deploy to Heroku
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Login to Heroku
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                run: heroku container:login
+
+            -   name: Install Heroku Builds Plugin
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                run: heroku plugins:install heroku-builds
+
+            -   name: Deploy to Heroku
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+                run: |
+                    cd pychatter
+                    heroku config:set OPENAI_API_KEY=$OPENAI_API_KEY -a gischat-pychatter
+                    heroku builds:create -a gischat-pychatter
+    deploy_app_to_heroku:
+        runs-on: ubuntu-latest
+        needs:
+            - build-and-test-app
+            - build-and-test-pychatter
+            - deploy_pychatter_to_heroku
+        name: Build and Deploy to Heroku
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Set up JDK 17
+                uses: actions/setup-java@v2
+                with:
+                    distribution: 'temurin'
+                    java-version: '17'
+                    cache: 'gradle'
+
+            -   name: Build JAR file with Gradle
+                run: ./gradlew web:build -x test --no-daemon
+
+            -   name: Login to Heroku
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                run: heroku container:login
+
+            -   name: Install Heroku Java Plugin
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                run: heroku plugins:install java
+
+            -   name: Deploy to Heroku
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                run: |
+                    heroku config:set PYCHATTER_URL='https://gischat-pychatter.herokuapp.com' -a gischat
+                    heroku deploy:jar web/build/libs/web.jar -a gischat
+ 

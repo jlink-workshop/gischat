@@ -90,7 +90,8 @@ Access Open API with `https://gischat-pychatter.herokuapp.com/docs`
 
 ### Deployment through GitHub Action
 
-Run action "Deploy Pychatter" on https://github.com/jlink-workshop/gischat/actions
+Pychatter is automatically deployed on push. For a manual redeploy click 
+run action "Deploy Pychatter" on https://github.com/jlink-workshop/gischat/actions
 
 ### Viewing the Logs
 

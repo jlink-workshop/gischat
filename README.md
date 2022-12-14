@@ -90,7 +90,8 @@ Access Open API with `https://gischat.herokuapp.com/swagger-ui.html`
 
 ### Deployment through GitHub Action
 
-Run action "Deploy App" on https://github.com/jlink-workshop/gischat/actions
+The app is automatically deployed on push. For a manual redeploy click 
+"Deploy App" on https://github.com/jlink-workshop/gischat/actions
 
 ### Viewing the Logs
 
