@@ -32,11 +32,16 @@ export async function subscribeChatbot(chatId) {
   return await postJson(path, chatbotRequest);
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function unsubscribeChatbot(chatId) {
+export async function unsubscribeChatbot() {
   let path = pychatterUrl() + "/bots/unsubscribe/";
   console.log("Trying to unsubscribe chatbot on " + path);
   return await postJson(path);
+}
+
+export async function getChatbotStatus() {
+  let path = pychatterUrl() + "/bots/status/";
+  console.log("Checking if chat bot is listening " + path);
+  return await getJson(path);
 }
 
 function baseUrl() {

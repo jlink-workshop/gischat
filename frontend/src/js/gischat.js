@@ -1,6 +1,6 @@
 'use strict';
 
-import {getChat, postChatMessage, subscribeChatbot, unsubscribeChatbot} from "./gischat-api.js";
+import {getChat, getChatbotStatus, postChatMessage, subscribeChatbot, unsubscribeChatbot} from "./gischat-api.js";
 import {config} from "./gischat-config.js";
 import {getUsername, setUsername} from "./gischat-username.js";
 import {clearAllFeatures, isFeatureActive, setFeature} from "./gischat-features.js";
@@ -64,8 +64,7 @@ function toggleDependentPreHook() {
 }
 
 function initializeUserName() {
-  let userName = getUsername();
-  document.getElementById("userName").value = userName;
+  document.getElementById("userName").value = getUsername();
 }
 
 function route(pathname) {
@@ -78,6 +77,7 @@ function route(pathname) {
     loadChat(chatId);
     initializeUserName();
     pollChat(chatId);
+    pollStatus(chatId);
     return;
   }
   setErrorMessage("Unknown route: " + pathname);
@@ -86,12 +86,24 @@ function route(pathname) {
 async function loadChat(chatId) {
   let chatResponse = await getChat(chatId);
   fillInChat(chatResponse);
+  chatResponse = await getChatbotStatus(chatId);
+  toggleBotCheckbox(chatResponse, document.getElementById('chatbotEnabled'));
 }
 
 function pollChat(chatId) {
   setInterval(async () => {
         let chatResponse = await getChat(chatId);
         fillInChat(chatResponse);
+      },
+      config().pollingInterval
+  );
+}
+
+function pollStatus(chatId) {
+  setInterval(async () => {
+        let chatResponse = await getChatbotStatus(chatId);
+        console.log("polling pychatter status:", chatResponse);
+        toggleBotCheckbox(chatResponse, document.getElementById('chatbotEnabled'));
       },
       config().pollingInterval
   );
@@ -160,4 +172,7 @@ function setErrorMessage(message) {
   errorElement.textContent = message;
 }
 
+export function toggleBotCheckbox(status, checkbox) {
+  checkbox.checked = status.status === 'active';
+}
 
