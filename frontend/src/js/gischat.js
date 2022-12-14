@@ -7,7 +7,6 @@ import {clearAllFeatures, isFeatureActive, setFeature} from "./gischat-features.
 
 export function onLoad() {
   evalFeatureToggles(location);
-  toggleDependentPreHook();
   route(location.pathname);
 }
 
@@ -54,12 +53,6 @@ function evalFeatureToggles(location) {
     clearAllFeatures();
     const features = featuresParam.split(',').map(f => f.trim()).filter(f => f !== "");
     features.forEach(f => setFeature(f));
-  }
-}
-
-function toggleDependentPreHook() {
-  if (isFeatureActive("pychatter")) {
-    document.getElementById("feature-pychatter").style.visibility = "visible";
   }
 }
 
