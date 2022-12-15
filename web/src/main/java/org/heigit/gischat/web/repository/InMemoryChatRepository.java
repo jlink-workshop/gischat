@@ -11,23 +11,17 @@ import org.springframework.stereotype.*;
 public class InMemoryChatRepository implements ChatRepository {
 
 	private final GischatConfiguration configuration;
-	private Chat theChat;
 	private final Map<Integer, Chat> theChats = new HashMap<>();
 
 	@Autowired
 	public InMemoryChatRepository(GischatConfiguration configuration) {
 		this.configuration = configuration;
-		this.theChat = createChat();
 		this.theChats.put(1, createChat());
 	}
 
-	@Override
-	public synchronized Chat findOne() {
-		return copyChat(theChat);
-	}
 
 	@Override
-	public Optional<Chat> findById(int id) {
+	public synchronized Optional<Chat> findById(int id) {
 		return Optional.of(copyChat(theChats.get(id)));
 	}
 
@@ -45,7 +39,6 @@ public class InMemoryChatRepository implements ChatRepository {
 
 	@Override
 	public void save(Chat chat) {
-		theChat = chat;
 		theChats.put(1,chat);
 	}
 }

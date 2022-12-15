@@ -20,13 +20,13 @@ public class ChatController {
 		this.repository = repository;
 	}
 
-	private ChatRepository repository;
+	private final ChatRepository repository;
 
 	@Operation(summary = "Get a chat by id with all its messages")
 	@GetMapping(path = "{id}")
 	public ChatResponse getChat(@PathVariable String id) {
 		ensureIdIs1(id);
-		Chat chat = repository.findOne();
+		Chat chat = repository.findById(1).orElseThrow();
 		return new ChatResponse(chat);
 	}
 
@@ -37,7 +37,7 @@ public class ChatController {
 		@RequestBody ChatMessageRequest messageRequest
 	) {
 		ensureIdIs1(id);
-		Chat chat = repository.findOne();
+		Chat chat = repository.findById(1).orElseThrow();
 		ChatMessage newMessage = addMessageToChat(messageRequest, chat);
 		repository.save(chat);
 		return new ChatMessageResponse(newMessage);

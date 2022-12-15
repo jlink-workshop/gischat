@@ -28,13 +28,6 @@ public class ChatRepositoryTests {
 	}
 
 	@Test
-	void getTheOneChat() {
-		Chat chat = repository.findOne();
-		assertThat(chat.getId()).isEqualTo("1");
-		assertThat(chat.getTitle()).isEqualTo("Just a Chat");
-		assertThat(chat.getMessages()).isEmpty();
-	}
-	@Test
 	void getChatById() {
 		Optional<Chat> chat = repository.findById(1);
 		assertThat(chat).isPresent();
@@ -45,27 +38,13 @@ public class ChatRepositoryTests {
 
 	@Test
 	void getTheOneChatTwiceWillCreateAFreshOneIfNotSaved() {
-		Chat chat1 = repository.findOne();
+		Chat chat1 = repository.findById(1).orElseThrow();
 		chat1.addMessage(Instant.now(), "anyUser", "any text");
-		Chat chat2 = repository.findOne();
+		Chat chat2 = repository.findById(1).orElseThrow();
 		assertThat(chat2.getMessages()).isEmpty();
 	}
 
-	@Test
-	void savingAChatWillSaveMessages() {
-		Chat chat1 = repository.findOne();
-		Instant now = Instant.now();
-		chat1.addMessage(now, "anyUser", "any text");
-		repository.save(chat1);
 
-		Chat chat2 = repository.findOne();
-		assertThat(chat2.getMessages()).hasSize(1);
-
-		ChatMessage message = chat2.getMessages().get(0);
-		assertThat(message.time()).isEqualTo(now);
-		assertThat(message.user()).isEqualTo("anyUser");
-		assertThat(message.text()).isEqualTo("any text");
-	}
 	@Test
 	void savingAChatRetrievedByIdWillSaveMessages() {
 		Optional<Chat> chat1 = repository.findById(1);

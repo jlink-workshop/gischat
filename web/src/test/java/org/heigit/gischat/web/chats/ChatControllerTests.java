@@ -36,7 +36,7 @@ class ChatControllerTests {
 	@BeforeEach
 	void setup(@Autowired WebApplicationContext wac) {
 		mockMvc = webAppContextSetup(wac).build();
-		when(sessionRepository.findOne()).thenReturn(chat);
+		when(sessionRepository.findById(1)).thenReturn(Optional.of(chat));
 	}
 
 	@Test
