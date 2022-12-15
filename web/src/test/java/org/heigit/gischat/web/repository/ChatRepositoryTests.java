@@ -28,11 +28,19 @@ public class ChatRepositoryTests {
 	}
 
 	@Test
-	void getChatById() {
+	void findFirstChat() {
 		Optional<Chat> chat = repository.findById(1);
 		assertThat(chat).isPresent();
 		assertThat(chat.get().getId()).isEqualTo("1");
 		assertThat(chat.get().getTitle()).isEqualTo("Just a Chat");
+		assertThat(chat.get().getMessages()).isEmpty();
+	}
+	@Test
+	void findSecondChat() {
+		Optional<Chat> chat = repository.findById(2);
+		assertThat(chat).isPresent();
+		assertThat(chat.get().getId()).isEqualTo("2");
+		assertThat(chat.get().getTitle()).isEqualTo("Just another Chat");
 		assertThat(chat.get().getMessages()).isEmpty();
 	}
 
@@ -63,4 +71,6 @@ public class ChatRepositoryTests {
 		});
 
 	}
+
+
 }

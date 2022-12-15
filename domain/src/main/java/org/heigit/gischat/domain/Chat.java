@@ -8,19 +8,24 @@ public class Chat {
 	private static final String DEFAULT_ID = "1";
 
 	private String title;
-
+	private final String id;
 	private final List<ChatMessage> messages = new ArrayList<>();
 
 	public Chat(String title) {
+		this.id = DEFAULT_ID;
 		this.title = title;
 	}
 
+	public Chat(String id, String title) {
+		this.id = id;
+		this.title = title;
+	}
 	public String getId() {
-		return DEFAULT_ID;
+		return this.id;
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -28,13 +33,13 @@ public class Chat {
 	}
 
 	public List<ChatMessage> getMessages() {
-		return Collections.unmodifiableList(messages);
+		return Collections.unmodifiableList(this.messages);
 	}
 
 	public ChatMessage addMessage(Instant time, String user, String text) {
 		ChatMessage newMessage = new ChatMessage(time, user, text);
-		messages.add(newMessage);
-		Collections.sort(messages);
+		this.messages.add(newMessage);
+		Collections.sort(this.messages);
 		return newMessage;
 	}
 }
