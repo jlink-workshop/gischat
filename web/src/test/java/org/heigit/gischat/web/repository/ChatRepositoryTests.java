@@ -2,6 +2,8 @@ package org.heigit.gischat.web.repository;
 
 import java.time.*;
 
+import java.util.*;
+
 import org.heigit.gischat.domain.*;
 import org.heigit.gischat.web.*;
 import org.junit.jupiter.api.*;
@@ -31,6 +33,14 @@ public class ChatRepositoryTests {
 		assertThat(chat.getId()).isEqualTo("1");
 		assertThat(chat.getTitle()).isEqualTo("Just a Chat");
 		assertThat(chat.getMessages()).isEmpty();
+	}
+	@Test
+	void getChatById() {
+		Optional<Chat> chat = repository.findById(1);
+		assertThat(chat).isPresent();
+		assertThat(chat.get().getId()).isEqualTo("1");
+		assertThat(chat.get().getTitle()).isEqualTo("Just a Chat");
+		assertThat(chat.get().getMessages()).isEmpty();
 	}
 
 	@Test
