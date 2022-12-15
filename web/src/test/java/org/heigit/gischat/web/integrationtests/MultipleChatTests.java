@@ -34,13 +34,14 @@ class MultipleChatTests extends IntegrationTests {
 		driver.get(chatUrl(2));
 
 		WebElement userNameInput = driver.findElement(By.id("userName"));
-		userNameInput.sendKeys("John Doe");
+		userNameInput.sendKeys("xxx");
 
 		WebElement messageTextInput = driver.findElement(By.id("messageText"));
-		messageTextInput.sendKeys("This is a message");
+		messageTextInput.sendKeys("yyy");
 
 		WebElement sendButton = driver.findElement(By.id("sendMessageButton"));
 		sendButton.click();
+
 
 
 		// Switch back to first window
@@ -54,8 +55,8 @@ class MultipleChatTests extends IntegrationTests {
 		waitAndAssert(
 			driver -> {
 				WebElement messages = driver.findElement(By.id("messages"));
-				assertThat(messages.getText()).doesNotContain("John Doe");
-				assertThat(messages.getText()).doesNotContain("This is a message");
+				assertThat(messages.getText()).doesNotContain("xxx");
+				assertThat(messages.getText()).doesNotContain("yyy");
 			}
 		);
 	}
