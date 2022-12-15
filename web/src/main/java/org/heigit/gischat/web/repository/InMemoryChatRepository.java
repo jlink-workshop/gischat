@@ -42,6 +42,6 @@ public class InMemoryChatRepository implements ChatRepository {
 	}
 	@Override
 	public void save(Chat chat) {
-		theChats.put(1,chat);
+		theChats.put(Integer.valueOf(chat.getId()), chat);
 	}
 }

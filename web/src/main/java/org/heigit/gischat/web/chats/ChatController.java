@@ -25,8 +25,8 @@ public class ChatController {
 	@Operation(summary = "Get a chat by id with all its messages")
 	@GetMapping(path = "{id}")
 	public ChatResponse getChat(@PathVariable String id) {
-		ensureIdIs1(id);
-		Chat chat = repository.findById(1).orElseThrow();
+		ensureIdIsValid(id);
+		Chat chat = repository.findById(Integer.parseInt(id)).orElseThrow();
 		return new ChatResponse(chat);
 	}
 
@@ -36,8 +36,8 @@ public class ChatController {
 		@PathVariable String id,
 		@RequestBody ChatMessageRequest messageRequest
 	) {
-		ensureIdIs1(id);
-		Chat chat = repository.findById(1).orElseThrow();
+		ensureIdIsValid(id);
+		Chat chat = repository.findById(Integer.parseInt(id)).orElseThrow();
 		ChatMessage newMessage = addMessageToChat(messageRequest, chat);
 		repository.save(chat);
 		return new ChatMessageResponse(newMessage);
@@ -47,8 +47,8 @@ public class ChatController {
 		return chat.addMessage(Instant.now().truncatedTo(ChronoUnit.SECONDS), messageRequest.getUser(), messageRequest.getText());
 	}
 
-	private void ensureIdIs1(@PathVariable String id) {
-		if (!id.equals("1")) {
+	private void ensureIdIsValid(@PathVariable String id) {
+		if (!id.equals("1") && !id.equals("2")) {
 			throw new ResponseStatusException(
 				HttpStatus.NOT_FOUND, String.format("no chat with id [%s]", id)
 			);
