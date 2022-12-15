@@ -46,6 +46,10 @@ abstract class IntegrationTests {
 		return String.format("http://localhost:%d/index.html", port);
 	}
 
+	protected String chatUrl(int chatId) {
+		return String.format("http://localhost:%d/chat/%d", port, chatId);
+	}
+
 	protected WebDriverWait createWait() {
 		return new WebDriverWait(driver, Duration.ofSeconds(5));
 	}
