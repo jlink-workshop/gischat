@@ -79,8 +79,13 @@ function route(pathname) {
 async function loadChat(chatId) {
   let chatResponse = await getChat(chatId);
   fillInChat(chatResponse);
-  chatResponse = await getChatbotStatus(chatId);
-  toggleBotCheckbox(chatResponse, document.getElementById('chatbotEnabled'));
+  let checkbox = document.getElementById('chatbotEnabled');
+  if (chatId === "1") {
+    chatResponse = await getChatbotStatus(chatId);
+    toggleBotCheckbox(chatResponse, checkbox);
+  } else {
+    document.getElementById("feature-pychatter").style.display = "none";
+  }
 }
 
 function pollChat(chatId) {
