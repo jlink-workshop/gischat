@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
+import org.openqa.selenium.support.ui.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,9 +26,38 @@ class MultipleChatTests extends IntegrationTests {
 	}
 
 	@Test
-	@Disabled("Not ready yet")
 	void noCrossPosting() {
-		assertThat(true).isEqualTo(false);
+		driver.get(chatUrl(1));
+		String first = driver.getWindowHandle();
+
+		driver.switchTo().newWindow(WindowType.WINDOW);
+		driver.get(chatUrl(2));
+
+		WebElement userNameInput = driver.findElement(By.id("userName"));
+		userNameInput.sendKeys("John Doe");
+
+		WebElement messageTextInput = driver.findElement(By.id("messageText"));
+		messageTextInput.sendKeys("This is a message");
+
+		WebElement sendButton = driver.findElement(By.id("sendMessageButton"));
+		sendButton.click();
+
+
+		// Switch back to first window
+
+		driver.switchTo().window(first);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		waitAndAssert(
+			driver -> {
+				WebElement messages = driver.findElement(By.id("messages"));
+				assertThat(messages.getText()).doesNotContain("John Doe");
+				assertThat(messages.getText()).doesNotContain("This is a message");
+			}
+		);
 	}
 
 	void forStealingCode() {
