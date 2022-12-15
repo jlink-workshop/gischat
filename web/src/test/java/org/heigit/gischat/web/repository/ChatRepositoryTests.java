@@ -66,4 +66,22 @@ public class ChatRepositoryTests {
 		assertThat(message.user()).isEqualTo("anyUser");
 		assertThat(message.text()).isEqualTo("any text");
 	}
+	@Test
+	void savingAChatRetrievedByIdWillSaveMessages() {
+		Optional<Chat> chat1 = repository.findById(1);
+		Instant now = Instant.now();
+		chat1.ifPresent(chat->  {
+			chat.addMessage(now, "anyUser", "any text");
+			repository.save(chat);
+		});
+		Optional<Chat> chat2 = repository.findById(1);
+		chat2.ifPresent(chat->  {
+			assertThat(chat.getMessages()).hasSize(1);
+			ChatMessage message = chat.getMessages().get(0);
+			assertThat(message.time()).isEqualTo(now);
+			assertThat(message.user()).isEqualTo("anyUser");
+			assertThat(message.text()).isEqualTo("any text");
+		});
+
+	}
 }

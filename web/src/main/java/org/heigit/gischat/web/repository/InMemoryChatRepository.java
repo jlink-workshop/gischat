@@ -18,7 +18,7 @@ public class InMemoryChatRepository implements ChatRepository {
 	public InMemoryChatRepository(GischatConfiguration configuration) {
 		this.configuration = configuration;
 		this.theChat = createChat();
-		this.theChats.put(1, this.theChat);
+		this.theChats.put(1, createChat());
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class InMemoryChatRepository implements ChatRepository {
 
 	@Override
 	public Optional<Chat> findById(int id) {
-		return Optional.of(theChats.get(id));
+		return Optional.of(copyChat(theChats.get(id)));
 	}
 
 	private Chat copyChat(Chat chat) {
@@ -46,5 +46,6 @@ public class InMemoryChatRepository implements ChatRepository {
 	@Override
 	public void save(Chat chat) {
 		theChat = chat;
+		theChats.put(1,chat);
 	}
 }
