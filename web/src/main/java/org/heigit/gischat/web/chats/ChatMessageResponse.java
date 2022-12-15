@@ -18,7 +18,7 @@ public class ChatMessageResponse {
 	public ChatMessageResponse(ChatMessage message) {
 		this.date = DATE_FORMATTER.format(message.time());
 		this.time = TIME_FORMATTER.format(message.time());
-		this.user = message.user();
+		this.user = message.user().name();
 		this.text = message.text();
 	}
 

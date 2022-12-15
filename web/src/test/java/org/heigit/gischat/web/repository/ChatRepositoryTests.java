@@ -66,7 +66,7 @@ public class ChatRepositoryTests {
 			assertThat(chat.getMessages()).hasSize(1);
 			ChatMessage message = chat.getMessages().get(0);
 			assertThat(message.time()).isEqualTo(now);
-			assertThat(message.user()).isEqualTo("anyUser");
+			assertThat(message.user().name()).isEqualTo("anyUser");
 			assertThat(message.text()).isEqualTo("any text");
 		});
 

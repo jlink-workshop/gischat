@@ -37,6 +37,13 @@ public class Chat {
 	}
 
 	public ChatMessage addMessage(Instant time, String user, String text) {
+		ChatMessage newMessage = new ChatMessage(time, new User(user), text);
+		messages.add(newMessage);
+		Collections.sort(messages);
+		return newMessage;
+	}
+
+	public ChatMessage addMessage(Instant time, User user, String text) {
 		ChatMessage newMessage = new ChatMessage(time, user, text);
 		this.messages.add(newMessage);
 		Collections.sort(this.messages);

@@ -56,7 +56,7 @@ class ChatTests {
 		void userNameIsFullyTrimmed() {
 			Instant now = Instant.now();
 			ChatMessage message = chat.addMessage(now, " my \t name  ", "Hi.");
-			assertThat(message.user()).isEqualTo("my name");
+			assertThat(message.user().name()).isEqualTo("my name");
 		}
 
 		@Test
@@ -64,7 +64,7 @@ class ChatTests {
 			Instant now = Instant.now();
 			ChatMessage newMessage = chat.addMessage(now, "frank", "Hi.");
 			assertThat(newMessage.time()).isEqualTo(now);
-			assertThat(newMessage.user()).isEqualTo("frank");
+			assertThat(newMessage.user().name()).isEqualTo("frank");
 			assertThat(newMessage.text()).isEqualTo("Hi.");
 
 			assertThat(chat.getMessages()).hasSize(1);
@@ -118,6 +118,14 @@ class ChatTests {
 			assertThat(message).isNotEqualTo(
 				chat.addMessage(now, "frank", "Hello.")
 			);
+		}
+
+		@Test
+		void acceptsUserObject() {
+			Instant now = Instant.now();
+			var message = chat.addMessage(now, new User("user"), "Hi.");
+			assertThat(message.user()).isInstanceOf(User.class);
+			assertThat(message.user().name()).isEqualTo("user");
 		}
 
 	}

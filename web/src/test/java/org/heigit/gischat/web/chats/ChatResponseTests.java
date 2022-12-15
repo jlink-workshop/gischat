@@ -26,7 +26,8 @@ class ChatResponseTests {
 		ChatResponse response = new ChatResponse(chat);
 
 		assertThat(response.getMessages()).hasSize(2);
-		assertThat(response.getMessages().stream().map(ChatMessageResponse::getUser))
+		assertThat(response.getMessages().stream()
+		    .map(ChatMessageResponse::getUser))
 			.containsExactly("user1", "user2");
 	}
 }
