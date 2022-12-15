@@ -5,6 +5,8 @@ import {config} from "./gischat-config.js";
 import {getUsername, setUsername} from "./gischat-username.js";
 import {clearAllFeatures, setFeature} from "./gischat-features.js";
 
+let chatId = location.pathname.substring(6);
+
 export function onLoad() {
   evalFeatureToggles(location);
   route(location.pathname);
@@ -13,7 +15,7 @@ export function onLoad() {
 export async function onSendMessage() {
   let userName = document.getElementById("userName").value;
   let messageText = document.getElementById("messageText").value;
-  let newMessage = await postChatMessage("1", userName, messageText);
+  let newMessage = await postChatMessage(chatId, userName, messageText);
   document.getElementById("messageText").value = "";
   let messagesElement = document.getElementById("messages");
   addMessageTo(newMessage, messagesElement);
@@ -66,7 +68,6 @@ function route(pathname) {
     return;
   }
   if (pathname.startsWith("/chat/")) {
-    let chatId = pathname.substring(6)
     loadChat(chatId);
     initializeUserName();
     pollChat(chatId);
